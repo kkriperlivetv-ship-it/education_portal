@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}MyCourses{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Герой секция -->
+    <div class="hero-section text-center py-5 mb-5 bg-light rounded">
+        <h1 class="display-4 mb-3">My Courses</h1>
+        <p class="lead mb-4">Лучшие курсы по дизайну и игровой разработке. Изучайте, создавайте, вдохновляйтесь!</p>
+        <a href="{{ url_for('courses') }}" class="btn btn-primary btn-lg me-2">
+            <i class="bi bi-search"></i> Найти курс
+        </a>
+        {% if not current_user.is_authenticated %}
+        <a href="{{ url_for('register') }}" class="btn btn-outline-primary btn-lg">
+            <i class="bi bi-person-plus"></i> Начать обучение
+        </a>
+        {% endif %}
+    </div>
+
+    <!-- Категории -->
+    <section class="mb-5">
+        <h2 class="text-center mb-4">Популярные категории</h2>
+        <div class="row">
+            {% for category in categories %}
+            <div class="col-md-4 mb-4">
+                <a href="{{ url_for('courses', category_id=category.id) }}" class="text-decoration-none">
+                    <div class="category-card text-center p-4 h-100">
+                        <i class="bi bi-{{ category.icon or 'book' }} display-4 mb-3"></i>
+                        <h3>{{ category.name }}</h3>
+                        <p>{{ category.description }}</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Рекомендуемые курсы -->
+    <section class="mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Рекомендуемые курсы</h2>
+            <a href="{{ url_for('courses') }}" class="btn btn-link">Все курсы →</a>
+        </div>
+        <div class="row">
+            {% for course in featured_courses %}
+            <div class="col-md-4 mb-4">
+                <div class="card course-card h-100">
+                    <img src="{{ course.image_url or 'https://via.placeholder.com/300x200' }}" 
+                         class="card-img-top" 
+                         alt="{{ course.title }}"
+                         style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <span class="badge bg-secondary mb-2">{{ course.category.name }}</span>
+                        <h5 class="card-title">{{ course.title }}</h5>
+                        <p class="card-text">{{ course.description[:100] }}...</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-{{ 
+                                'success' if course.difficulty_level == 'beginner' 
+                                else 'warning' if course.difficulty_level == 'intermediate' 
+                                else 'danger' 
+                            }}">
+                                {{ course.difficulty_level|upper }}
+                            </span>
+                            <span class="text-muted">{{ course.duration_hours or 0 }} часов</span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-top-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <img src="https://via.placeholder.com/30" 
+                                     class="rounded-circle" 
+                                     alt="Инструктор"
+                                     style="width: 30px; height: 30px;">
+                                <small class="ms-2">{{ course.instructor.username }}</small>
+                            </div>
+                            <a href="{{ url_for('course_detail', course_id=course.id) }}" 
+                               class="btn btn-primary btn-sm">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Преимущества -->
+    <section class="bg-light p-5 rounded mb-5">
+        <h2 class="text-center mb-4">Почему выбирают нас?</h2>
+        <div class="row text-center">
+            <div class="col-md-4 mb-3">
+                <i class="bi bi-people display-4 text-primary mb-3"></i>
+                <h4>Экспертные инструкторы</h4>
+                <p>Обучайтесь у профессионалов индустрии</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <i class="bi bi-laptop display-4 text-primary mb-3"></i>
+                <h4>Практические навыки</h4>
+                <p>Реальные проекты и практические задания</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <i class="bi bi-award display-4 text-primary mb-3"></i>
+                <h4>Сертификаты</h4>
+                <p>Получайте сертификаты о прохождении курсов</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Статистика -->
+    <section class="text-center mb-5">
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <h3 class="display-6 text-primary">100+</h3>
+                <p>Курсов</p>
+            </div>
+            <div class="col-md-3 mb-3">
+                <h3 class="display-6 text-primary">5,000+</h3>
+                <p>Студентов</p>
+            </div>
+            <div class="col-md-3 mb-3">
+                <h3 class="display-6 text-primary">50+</h3>
+                <p>Инструкторов</p>
+            </div>
+            <div class="col-md-3 mb-3">
+                <h3 class="display-6 text-primary">98%</h3>
+                <p>Довольных студентов</p>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

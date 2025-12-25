@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+
+# Database
+*.db
+*.sqlite3
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Файлы окружения
+.env
+*.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Конфиденциальные данные
+secrets.txt
+config.ini
+credentials.json
+*.key
+*.pem
+
+# База данных
+*.db
+*.sqlite
+*.sqlite3
+instance/
+
+# Логи
+*.log
+logs/
+
+# Папка загрузок (если есть)
+static/uploads/
